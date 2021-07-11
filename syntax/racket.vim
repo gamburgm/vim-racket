@@ -606,6 +606,10 @@ syn region racketQuoted matchgroup=Delimiter start="#['`]("rs=s+3 matchgroup=Del
 " Comments
 syn match racketComment /;.*$/ contains=racketTodo,racketNote,@Spell
 syn region racketMultilineComment start=/#|/ end=/|#/ contains=racketMultilineComment,racketTodo,racketNote,@Spell
+syn region racketDatumComment matchgroup=racketDatumComment start=/#;[ \t\n'`]*/ end=/[ \t\n()\[\]{}";]/me=e-1
+syn region racketDatumComment matchgroup=racketDatumComment start=/#;[ \t\n'`]*/ skip=/\\[\\"]/ end=/"/
+syn region racketDatumComment matchgroup=racketDatumComment start=/#;[ \t\n`']*\(#\([usf]\d\+\)\?\)\?(/ end=/)/ contains=racketDatumCommentForm
+syn region racketDatumCommentForm start="(" end=")" contained contains=racketDatumCommentForm
 
 syn keyword racketTodo FIXME TODO XXX contained
 syntax match racketNote /\CNOTE\ze:\?/ contained
@@ -649,6 +653,8 @@ if version >= 508 || !exists("did_racket_syntax_inits")
 
   HiLink racketComment            Comment
   HiLink racketMultilineComment   Comment
+  HiLink racketDatumComment       Comment
+  HiLink racketDatumCommentForm   Comment
   HiLink racketTodo               Todo
   HiLink racketNote               SpecialComment
   HiLink racketError              Error
